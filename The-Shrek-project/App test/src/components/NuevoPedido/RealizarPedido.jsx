@@ -129,11 +129,11 @@ const RealizarPedido = () =>{
             setDatosCabeceraPedido({
               total: '',
               totalCosto: '',
-              estado: 'A_COCINA',
+              estado: 'PREPARACION',
               estadoPago: 'PENDIENTE_PAGO',
               formaPago: 'EFECTIVO',
               tipoEnvio: 'DELIVERY',
-              domicilio: null,
+              domicilio: {id:1},
               detallePedido: [],
             });
             setDetallePedido({});

@@ -3,8 +3,14 @@ import ImagenLogin from '../../Resources/Images/Login-Registro.jpg'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../Connections/axiosConfig';
+import DropdownRol from '../MenusDesplegables/MenuDesplegableRoles';
 
-export const Registro = () => {
+export const NuevoEmpleado = () => {
+  const rol = window.localStorage.getItem('Rol')
+  if(rol != 'ADMINISTRADOR'){
+    window.location.href = "/"
+    return(null)
+  }
     const navigate = useNavigate();
     const [datosFormulario, setDatosFormulario] = useState({
         username:'',
@@ -12,7 +18,7 @@ export const Registro = () => {
         firstname:'',
         lastname:'',
         email:'',
-        rol:'CLIENTE'
+        rol:'COCINERO'
     })
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -27,19 +33,7 @@ export const Registro = () => {
         const response = await axiosInstance.post(`/auth/register`,datosFormulario);
         // Si la solicitud fue exitosa (código de estado 2xx)
         if (response.status >= 200 && response.status < 300) {
-          const data = response.data;
-          // Manejar la respuesta del servidor, por ejemplo, almacenar el token
-          console.log('Token:', data.token);
-          console.log('Id:', data.id);
-          window.localStorage.setItem('token', data.token);
-          window.localStorage.setItem('Id', data.id);     
-          window.localStorage.setItem('isLoggedIn','true')
-          const rol = data.rol.replace(/\[|\]/g, '')
-          window.localStorage.setItem('Rol',rol)     
-          navigate('/')
           window.location.reload()
-          // Redireccionar al usuario a otra página
-          // history.push('/dashboard');
         } else {
           console.error('Credenciales inválidas');
         }
@@ -49,14 +43,17 @@ export const Registro = () => {
         console.log("Complete todos los campos")
       }
     };
-  
+    const handleDropdownRolSelect = (selectedOption) => {
+      setDatosFormulario({...datosFormulario, rol: selectedOption });
+      console.log(selectedOption)
+    };
     return (
 
       <div className='container'>
       <div>
         <h2>Registrarse</h2>
         <form onSubmit={handleRegistro}>
-        <img src="src/Resources/Images/Login-Registro.jpg" alt="" />
+        <img src="src/Resources/Images/RegistroEmpleado.png" alt="" />
         <br />
           <label>
             Nombre:
@@ -88,15 +85,16 @@ export const Registro = () => {
             <input placeholder="Repita contaseña" type="password" name="" value={datosFormulario.password2} onChange={handleChange} />
           </label>
           <br />
+          <DropdownRol onSelectOptionRol={handleDropdownRolSelect}/>
+          <br />
 
           <button type="submit">Registrarse</button>
           <button type="submit">Cancelar</button>
           <br />
-          <a href="">Crear cuenta con google <img className= "google" src="src/Resources/Images/google.jpeg" alt="" /></a>
         </form>
       </div>
     </div>
     );
   };
   
-  export default Registro;
+  export default NuevoEmpleado;

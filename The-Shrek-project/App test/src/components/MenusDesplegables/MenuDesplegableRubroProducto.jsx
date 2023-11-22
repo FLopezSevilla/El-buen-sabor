@@ -8,7 +8,7 @@ const DropdownMenu = ({ onSelectOption }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/api/v1/RubroProducto`);
+        const response = await axiosInstance.get(`/ADMIN/RubroProducto`);
         setOptions(response.data);
         console.log(response.data)
       } catch (error) {

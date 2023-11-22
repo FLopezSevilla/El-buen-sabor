@@ -23,6 +23,7 @@ const RealizarPedido = () =>{
         estadoPago: 0,
         formaPago: 0,
         tipoEnvio: 0,
+        detallePedido:[]
         /* domicilio:{
             calle:'',
             numero:0,
@@ -30,7 +31,6 @@ const RealizarPedido = () =>{
             pisoDpto:0
 
         }, */
-        detallePedido:[]
     });
     // Función para obtener la hora actual más 30 minutos
   
@@ -64,25 +64,31 @@ const RealizarPedido = () =>{
             id: numeroPedido
           }
         }));
+    
+        // Realizar la solicitud POST fuera del bucle
         const respuestas = await Promise.all(detallesPedidoArray.map(detalle => axiosInstance.post('api/v1/e/DetallePedido', detalle)));
+    
+        // Obtener los nuevos detalles con la estructura {id: respuesta.data.id}
+        const nuevosDetalles = respuestas.map(respuesta => ({ id: respuesta.data.id }));
+    
         // Actualizar el estado después de que todas las solicitudes POST hayan tenido éxito
         setIdDetallesPedido((prevIds) => [
           ...prevIds,
-          ...respuestas.map(respuesta => ({ id: respuesta.data.id }))
+          ...nuevosDetalles
         ]);
-        setDatosCabeceraPedido((prevDatos) => ({
-          ...prevDatos,
-          detallePedido: [
-            ...prevDatos.detallePedido,
-            ...respuestas.map(respuesta => ({ idDetallePedido: respuesta.data.id }))
-          ]
+        
+        console.log("Detalles a agregar ", nuevosDetalles);
+        // Actualizar el estado datosCabeceraPedido con los nuevos detalles
+       setDatosCabeceraPedido((prevDatosCabeceraPedido) => ({
+          ...prevDatosCabeceraPedido,
+          detallePedido: nuevosDetalles
         }));
-        console.log("detalles de pedidos creados ", idDetallesPedido)
-        console.log("Detalles pedidos creados con éxito");
+        console.log("Detalles de pedido creados con éxito ", datosCabeceraPedido.detallePedido);
       } catch (error) {
         console.error('Algo salió mal: ', error);
       }
     };
+
     const CrearPedido = async () => {
       try {
         const respuesta = await axiosInstance.post(
@@ -90,7 +96,6 @@ const RealizarPedido = () =>{
           datosCabeceraPedido
         );
         setNumeroPedido(respuesta.data.id)
-        console.log(respuesta.data)
         return respuesta.data;
       } catch (error) {
         return console.error('Error al obtener productos desde la API:', error);
@@ -98,40 +103,58 @@ const RealizarPedido = () =>{
       
     };
     const handleSubmit = async (e) => {
+      e.preventDefault();
+    
       setDatosCabeceraPedido((prevDatos) => ({
         ...prevDatos,
         total: TotalCarrito(),
         totalCosto: TotalCostoCarrito(),
         cliente: { id: localStorage.getItem('Id') }
       }));
-        e.preventDefault();
-        console.log(datosCabeceraPedido)
-        const camposCompletos = Object.values(datosCabeceraPedido).every((campo) => (campo !== ''));
+    
+      console.log( "cabecera antes de las comprobaciones: ",datosCabeceraPedido)
+      if (datosCabeceraPedido && typeof datosCabeceraPedido === 'object') {
+        const camposCompletos = Object.values(datosCabeceraPedido).every(
+          (campo) => campo !== undefined
+        );
+    
         if (camposCompletos) {
-          CrearDetallePedido().then(()=>{
-              console.log("Hubiera enviado pedido")
-              return CrearPedido().then(()=>{
-                setDatosCabeceraPedido()
-                setDetallePedido()
-                setNumeroPedido()
-                setIdDetallesPedido()
-              })
-            }).catch((error)=>{
-              console.error("Hubo un error ", error)
-            })
+          try {
+            await CrearDetallePedido();
+            await CrearPedido();
             
-        }else{
-            console.log("Complete todos los campos")
-            console.log(datosCabeceraPedido)
+            // Aquí puedes realizar cualquier otra lógica que necesites después de crear el pedido
+    
+            // Limpiar el estado después de completar el pedido
+            setDatosCabeceraPedido({
+              total: '',
+              totalCosto: '',
+              estado: 'A_COCINA',
+              estadoPago: 'PENDIENTE_PAGO',
+              formaPago: 'EFECTIVO',
+              tipoEnvio: 'DELIVERY',
+              domicilio: null,
+              detallePedido: [],
+            });
+            setDetallePedido({});
+            setNumeroPedido(null);
+            setIdDetallesPedido([]);
+          } catch (error) {
+            console.error("Hubo un error ", error);
+          }
+        } else {
+          console.log("Complete todos los campos");
+          console.log(datosCabeceraPedido);
         }
+      } else {
+        console.error("datosCabeceraPedido es undefined o null");
+      }
     };
     const handleFormaPagoDropdownSelect = (selectedOption) => {
         setDatosCabeceraPedido({ ...datosCabeceraPedido, forma_pago: selectedOption });
-        console.log(datosCabeceraPedido)
       };
       const handleTipoEnvioDropdownSelect = (selectedOption) => {
         setDatosCabeceraPedido({ ...datosCabeceraPedido, tipo_envio: selectedOption });
-        console.log(datosCabeceraPedido)
       };
 
 
@@ -206,9 +229,8 @@ const RealizarPedido = () =>{
             <br />
             <DropdownTipoEntrega onSelectOption={handleTipoEnvioDropdownSelect} />
             <br />
-            <button type="submit">asdad</button>
+            <button type="submit">Crear Pedido</button>
           </form>
-          <div>asdasd</div>
         </>
       );
 }

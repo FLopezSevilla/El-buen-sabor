@@ -1,15 +1,12 @@
 import '../../Resources/css/FinalizarCompra.css'
 import { useCarrito } from '../NuevoPedido/Contexto/ContextoCarrito.jsx';
 import RealizarElPedido from './RealizarPedido.jsx';
-import { useState } from 'react';
 
 export const finalizarCompra = ({cambiarAComponente}) =>{
     const { carrito, agregarAlCarrito } = useCarrito();
     const CambiarAFinalizarCompra = () => {
         cambiarAComponente('productos');
-      };
-    const RealizarPedido = () =>{
-    }  
+      }; 
       const RemoverProducto = (id) => {
         const productoEnCarrito = carrito.find((item) => item.id === id);
     

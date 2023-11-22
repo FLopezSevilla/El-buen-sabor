@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axiosInstance from "../Connections/axiosConfig";
 import axios from 'axios'
 import { API_BASE_URL } from "../Connections/config";
 
@@ -10,10 +11,10 @@ export const FormularioRubroProducto = () => {
     });
     const handleSubmit = (e) => {
         e.preventDefault();
-        const url = `${API_BASE_URL}/api/v1/RubroProducto`
         console.log("Estoy enviando :", datosFormulario);
         //Llamado a la APi con los datos
-        axios.post(url,datosFormulario,{})
+        
+        axiosInstance.post(`/ADMIN/RubroProducto`,datosFormulario,{})
         window.location.reload();
 
     };

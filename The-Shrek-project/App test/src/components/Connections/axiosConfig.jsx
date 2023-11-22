@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
 // Añadir un interceptor para incluir el token en cada solicitud
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('miToken'); // Obtener el token del localStorage
+    const token = localStorage.getItem('token'); // Obtener el token del localStorage
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

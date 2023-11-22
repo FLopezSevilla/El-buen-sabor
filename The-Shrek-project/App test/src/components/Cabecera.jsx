@@ -4,19 +4,34 @@ import usuario from '../Resources/Images/admin.jpeg';
 import { Link } from 'react-router-dom';
 import useIsLoggedIn from './Hooks/IsLoggedIn';
 
-const Cabecera = ({TipoDeUsuario = 'usuario'}) => {
+const Cabecera = () => {
     let Navegacion = []
+    let TipoDeUsuario = "visita"
+    const LocalRol = window.localStorage.getItem('Rol')
+    console.log(LocalRol)
+    if (LocalRol != null){
+        TipoDeUsuario = LocalRol
+    }
     const LoggedIn = useIsLoggedIn();
     if (LoggedIn){
     switch (TipoDeUsuario) {
         
-        case "admin":
+        case "ADMINISTRADOR":
             Navegacion = [
-                {ruta:'',nombre:'Administrar usuarios'},{ruta:'',nombre:'Facturacion'},
-                {ruta:'',nombre:'Productos'},{ruta:'',nombre:'Estadisticas e Informes'}]
+                {ruta:'/AllUsers',nombre:'Administrar usuarios'},{ruta:'/Facturacion',nombre:'Facturacion'},
+                {ruta:'/NuevoEmpleado',nombre:'Nuevo empleado'},{ruta:'/NuevoProducto',nombre:'Nuevo Producto'},{ruta:'/Logout',nombre:'Logout'}]
             break
-        case "usuario":
+        case "CLIENTE":
             Navegacion = [{ruta:'/MisPedidos',nombre:'Mis pedidos'},{ruta:'',nombre:'Productos'},{ruta:'/Logout',nombre:'Logout'}]
+            break
+        case "REPARTIDOR":
+            Navegacion = [{ruta:'/PedidosDelivery',nombre:'Pedidos pendientes de entrega'},{ruta:'',nombre:'Productos'},{ruta:'/Logout',nombre:'Logout'}]
+            break
+        case "COCINERO":
+            Navegacion = [{ruta:'/PedidosCocina',nombre:'Pedidos para preparar'},{ruta:'',nombre:'Productos'},{ruta:'/Logout',nombre:'Logout'}]
+            break
+        case "CAJERO":
+            Navegacion = [{ruta:'/Entrega_Pedidos',nombre:'Pedidos para entregar'},{ruta:'/Cobro_Pedidos',nombre:'Cobrar Pedidos'},{ruta:'/Logout',nombre:'Logout'}]
             break
     }
     }else {

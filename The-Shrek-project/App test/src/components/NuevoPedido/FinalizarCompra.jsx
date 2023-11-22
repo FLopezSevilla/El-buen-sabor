@@ -1,7 +1,6 @@
 import '../../Resources/css/FinalizarCompra.css'
 import { useCarrito } from '../NuevoPedido/Contexto/ContextoCarrito.jsx';
 import RealizarElPedido from './RealizarPedido.jsx';
-import { useState } from 'react';
 
 export const finalizarCompra = ({cambiarAComponente}) =>{
     const { carrito, agregarAlCarrito } = useCarrito();

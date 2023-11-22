@@ -1,0 +1,23 @@
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Espaciado superior */
+  }
+  
+  /* Estilo para las celdas de la tabla */
+  th, td {
+    border: 1px solid #ddd; /* Líneas de demarcación */
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Estilo para las celdas de encabezado */
+  th {
+    background-color: #f2f2f2; /* Fondo gris claro para los encabezados */
+  }
+  
+  /* Estilo para las filas impares */
+  tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Fondo gris claro para las filas impares */
+  }

@@ -5,6 +5,11 @@ import '../../Resources/css/FormularioProducto.css';
 import { FormularioRubroProducto } from './FormularioRubroProducto';
 
 export const FormularioProducto = () => {
+    const rol = window.localStorage.getItem('Rol')
+    if(rol != 'ADMINISTRADOR'){
+    window.location.href = "/"
+    return(null)
+  }
     const [datosFormulario, setDatosFormulario] = useState({
         denominacion: '',
         descripcion: '',

@@ -30,6 +30,8 @@ export const Login = () => {
           window.localStorage.setItem('token', data.token);
           window.localStorage.setItem('isLoggedIn','true')
           window.localStorage.setItem('Id',data.id)
+          const rol = data.rol.replace(/\[|\]/g, '')
+          window.localStorage.setItem('Rol',rol)
           console.log('Token:', data.token);
           window.location.href = "/";
           

@@ -18,7 +18,7 @@ export const NuevoEmpleado = () => {
         firstname:'',
         lastname:'',
         email:'',
-        rol:''
+        rol:'COCINERO'
     })
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -53,7 +53,7 @@ export const NuevoEmpleado = () => {
       <div>
         <h2>Registrarse</h2>
         <form onSubmit={handleRegistro}>
-        <img src="src/Resources/Images/Login-Registro.jpg" alt="" />
+        <img src="src/Resources/Images/RegistroEmpleado.png" alt="" />
         <br />
           <label>
             Nombre:

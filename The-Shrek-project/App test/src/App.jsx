@@ -12,6 +12,7 @@ import PrivateRoute from './components/Seguridad/PrivateRoute';
 import MisPedidos from './components/Reportes/MisPedidos/MisPedidos';
 import DetallePedido from './components/Reportes/MisPedidos/DetallePedido';
 import PedidosCocina from './components/Reportes/PedidosCocina/PedidosCocina'
+import WIP from './components/WIP/TrabajandoEnEllo';
 
 function App() {
 
@@ -29,6 +30,12 @@ function App() {
             <Route path="/PedidosCocina" element={<PrivateRoute element={< PedidosCocina />}/>} />
             <Route path="/MisPedidos" element={<PrivateRoute element={< MisPedidos />}/>} />
             <Route path="/MisPedidos/DetallePedido/:id" element={<DetallePedido />} />
+            <Route path="/AllUsers" element={<PrivateRoute element={< WIP />}/>} />
+            <Route path="/Facturacion" element={<PrivateRoute element={< WIP />}/>} />
+            <Route path="/PedidosDelivery" element={<PrivateRoute element={< WIP />}/>} />
+            <Route path="/EntregaPedidos" element={<PrivateRoute element={< WIP />}/>} />
+            <Route path="/CobroPedidos" element={<PrivateRoute element={< WIP />}/>} />
+            <Route path="/Ingredientes" element={<PrivateRoute element={< WIP />}/>} />
             <Route path="/Register" element={<Registro />}/>
             <Route path="/Login" element={<Login />}/>
             <Route path="/Logout" element={<Logout />} />

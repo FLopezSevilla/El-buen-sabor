@@ -25,13 +25,13 @@ const Cabecera = () => {
             Navegacion = [{ruta:'/MisPedidos',nombre:'Mis pedidos'},{ruta:'',nombre:'Productos'},{ruta:'/Logout',nombre:'Logout'}]
             break
         case "REPARTIDOR":
-            Navegacion = [{ruta:'/PedidosDelivery',nombre:'Pedidos pendientes de entrega'},{ruta:'',nombre:'Productos'},{ruta:'/Logout',nombre:'Logout'}]
+            Navegacion = [{ruta:'/PedidosDelivery',nombre:'Pedidos pendientes de entrega'},{ruta:'/Logout',nombre:'Logout'}]
             break
         case "COCINERO":
-            Navegacion = [{ruta:'/PedidosCocina',nombre:'Pedidos para preparar'},{ruta:'',nombre:'Productos'},{ruta:'/Logout',nombre:'Logout'}]
+            Navegacion = [{ruta:'/PedidosCocina',nombre:'Pedidos para preparar'},{ruta:'/Ingredientes',nombre:'Ingredientes'},{ruta:'/Logout',nombre:'Logout'}]
             break
         case "CAJERO":
-            Navegacion = [{ruta:'/Entrega_Pedidos',nombre:'Pedidos para entregar'},{ruta:'/Cobro_Pedidos',nombre:'Cobrar Pedidos'},{ruta:'/Logout',nombre:'Logout'}]
+            Navegacion = [{ruta:'/EntregaPedidos',nombre:'Pedidos para entregar'},{ruta:'/CobroPedidos',nombre:'Cobrar Pedidos'},{ruta:'/Logout',nombre:'Logout'}]
             break
     }
     }else {
